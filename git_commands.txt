@@ -1,0 +1,77 @@
+# Comandos Git más utilizados
+
+## Configuración básica
+git config --global user.name "Tu Nombre"          # Configurar nombre de usuario
+git config --global user.email "tu@email.com"      # Configurar email
+git config --list                                  # Ver configuración actual
+
+## Inicialización y clonación
+git init                                           # Inicializar repositorio
+git clone [url]                                    # Clonar repositorio
+git clone [url] [nombre-carpeta]                   # Clonar en carpeta específica
+
+## Estado y cambios
+git status                                         # Ver estado del repositorio
+git status -s                                      # Ver estado en formato corto
+git diff                                           # Ver cambios no preparados
+git diff --staged                                  # Ver cambios preparados
+
+## Trabajo con archivos
+git add [archivo]                                  # Agregar archivo al staging
+git add .                                          # Agregar todos los cambios
+git restore --staged [archivo]                     # Quitar archivo del staging
+git restore [archivo]                              # Descartar cambios en archivo
+git rm [archivo]                                   # Eliminar archivo
+git mv [archivo-origen] [archivo-destino]          # Mover/renombrar archivo
+
+## Commits
+git commit -m "mensaje"                            # Crear commit con mensaje
+git commit -am "mensaje"                           # Agregar y commitear en un paso
+git commit --amend                                 # Modificar último commit
+git commit --amend -m "nuevo mensaje"              # Modificar mensaje del último commit
+
+## Ramas
+git branch                                         # Listar ramas
+git branch [nombre-rama]                           # Crear nueva rama
+git checkout [rama]                                # Cambiar a rama
+git checkout -b [nombre-rama]                      # Crear y cambiar a rama
+git branch -d [rama]                               # Eliminar rama
+git merge [rama]                                   # Fusionar rama actual
+
+## Remoto
+git remote -v                                      # Ver repositorios remotos
+git remote add [nombre] [url]                      # Agregar repositorio remoto
+git push [remoto] [rama]                           # Subir cambios
+git push -u origin [rama]                          # Subir y establecer upstream
+git pull [remoto] [rama]                           # Traer y fusionar cambios
+git fetch [remoto]                                 # Traer cambios sin fusionar
+
+## Historial
+git log                                            # Ver historial de commits
+git log --oneline                                  # Ver historial simplificado
+git log --graph                                    # Ver historial con gráfico
+git log --author="nombre"                          # Filtrar por autor
+
+## Deshacer cambios
+git reset [commit]                                 # Resetear a commit específico
+git reset --soft [commit]                          # Resetear manteniendo cambios
+git reset --hard [commit]                          # Resetear descartando cambios
+git revert [commit]                                # Crear commit que deshace cambios
+
+## Stash
+git stash                                          # Guardar cambios temporalmente
+git stash list                                     # Ver lista de stashes
+git stash pop                                      # Aplicar y eliminar último stash
+git stash apply                                    # Aplicar último stash
+git stash drop                                     # Eliminar último stash
+
+## Tags
+git tag                                            # Listar tags
+git tag [nombre]                                   # Crear tag
+git tag -a [nombre] -m "mensaje"                   # Crear tag anotado
+git push origin [tag]                              # Subir tag al remoto
+
+## Limpieza
+git clean -n                                       # Ver archivos a limpiar
+git clean -f                                       # Eliminar archivos no rastreados
+git clean -fd                                      # Eliminar archivos y directorios no rastreados 
