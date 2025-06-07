@@ -41,3 +41,4 @@ ENV/
 # Environment variables
 .env
 .env.local 
+Fruteria.code-workspace
