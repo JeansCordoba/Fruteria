@@ -1,8 +1,22 @@
 from src import db
 from src.models import Category
 from werkzeug.exceptions import NotFound, Conflict, BadRequest
+from src.utils.validations import validate_string_field
 
 def validate_category(category_id):
+    """
+    Validate if a category exists.
+    
+    Args:
+        category_id (int): The ID of the category to validate
+        
+    Returns:
+        Category: The validated category instance
+        
+    Raises:
+        BadRequest: If category_id is not an integer
+        NotFound: If category is not found
+    """
     if not isinstance(category_id, int):
         raise BadRequest("Category ID must be an integer")
     
@@ -11,47 +25,105 @@ def validate_category(category_id):
         raise NotFound(f"Category not found: {category_id}")
     return category
 
+def validate_category_fields(**kwargs):
+    """
+    Validate category fields.
+    
+    Args:
+        **kwargs: Category fields to validate
+        
+    Returns:
+        bool: True if all validations pass
+        
+    Raises:
+        BadRequest: If any validation fails
+        Conflict: If category name already exists
+    """
+    validate_string_field(kwargs.get('name'), 'Name')
+    
+    if 'name' in kwargs:
+        existing_category = Category.query.filter_by(name=kwargs['name']).first()
+        if existing_category:
+            raise Conflict(f"Category already exists: {kwargs['name']}")
+    
+    return True
+
 def get_all_categories():
+    """
+    Get all categories.
+    
+    Returns:
+        list: List of all categories
+    """
     return Category.query.all()
 
 def get_category_by_id(category_id):
+    """
+    Get a category by its ID.
+    
+    Args:
+        category_id (int): The ID of the category to get
+        
+    Returns:
+        Category: The requested category
+    """
     return validate_category(category_id)
 
-def create_category(name):
-    if not name or not name.strip():
-        raise BadRequest("Name cannot be empty")
+def create_category(name, description=None):
+    """
+    Create a new category.
     
-    existing_category = Category.query.filter_by(name=name).first()
-    if existing_category:
-        raise Conflict(f"Category already exists: {name}")
+    Args:
+        name (str): Category name
+        description (str, optional): Category description. Defaults to None.
     
-    category = Category(name=name)
+    Returns:
+        Category: The created category instance
+    """
+    validate_category_fields(name=name)
+    
+    category = Category(
+        name=name,
+        description=description
+    )
+    
     db.session.add(category)
     db.session.commit()
     return category
 
-def update_category(category_id, name):
-    if not name or not name.strip():
-        raise BadRequest("Name cannot be empty")
+def update_category(category_id, **kwargs):
+    """
+    Update a category.
     
+    Args:
+        category_id (int): The ID of the category to update
+        **kwargs: Fields to update
+        
+    Returns:
+        Category: The updated category instance
+    """
     category = validate_category(category_id)
+    validate_category_fields(**kwargs)
     
-    # Verificar si el nuevo nombre ya existe en otra categoría
-    existing_category = Category.query.filter(Category.name == name, Category.category_id != category_id).first()
-    if existing_category:
-        raise Conflict(f"Category name already exists: {name}")
+    if 'name' in kwargs:
+        category.name = kwargs['name']
+    if 'description' in kwargs:
+        category.description = kwargs['description']
     
-    category.name = name
     db.session.commit()
     return category
 
 def delete_category(category_id):
+    """
+    Delete a category.
+    
+    Args:
+        category_id (int): The ID of the category to delete
+        
+    Returns:
+        bool: True if deletion was successful
+    """
     category = validate_category(category_id)
-    
-    # Verificar si la categoría tiene productos asociados
-    if category.products:
-        raise Conflict(f"Cannot delete category with associated products: {category.name}")
-    
     db.session.delete(category)
     db.session.commit()
-    return category 
+    return True 

@@ -1,8 +1,6 @@
 from flask import Blueprint, jsonify, request
-from src.services.product_service import(
-    get_all_products, get_product_by_id, create_product, 
-    update_product, update_stock, delete_product, 
-    get_all_products_by_category)
+from src.services.product_service import(get_all_products, get_product_by_id, create_product, 
+    update_product, update_stock, delete_product, get_all_products_by_category)
 from werkzeug.exceptions import HTTPException
 
 product_bp = Blueprint('product', __name__)
