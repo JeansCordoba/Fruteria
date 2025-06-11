@@ -147,3 +147,34 @@ def validate_address(address, required=True):
         if len(address) > 100:
             raise BadRequest("Address must have less than 100 characters")
     return True 
+
+def validate_password(password, required=True):
+    """
+    Valida una contraseña.
+    
+    Args:
+        password: Contraseña a validar
+        required: Si el campo es requerido
+    
+    Returns:
+        bool: True si la validación es exitosa
+    
+    Raises:
+        BadRequest: Si la validación falla
+    """
+    if required and (not password or not password.strip()):
+        raise BadRequest("Password cannot be empty")
+    if password:
+        if not isinstance(password, str):
+            raise BadRequest("Password must be a string")
+        if len(password) < 8:
+            raise BadRequest("Password must have at least 8 characters")
+        if not any(char.isdigit() for char in password):
+            raise BadRequest("Password must contain at least one number")
+        if not any(char.isalpha() for char in password):
+            raise BadRequest("Password must contain at least one letter")
+        if not any(char.isupper() for char in password):
+            raise BadRequest("Password must contain at least one uppercase letter")
+        if not any(char.islower() for char in password):
+            raise BadRequest("Password must contain at least one lowercase letter")
+    return True
