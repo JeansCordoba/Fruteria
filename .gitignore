@@ -30,7 +30,6 @@ ENV/
 .vscode/
 *.swp
 *.swo
-Fruteria.code-workspace
 
 # Database
 *.db

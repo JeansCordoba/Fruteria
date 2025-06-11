@@ -18,7 +18,5 @@ def create_app():
     db.init_app(app)
     #Se registran los endponit para ya quedar habilitados
     from src.routes.category_routes import category_bp
-    from src.routes.product_routes import product_bp
     app.register_blueprint(category_bp, url_prefix='/fruteria/v1')
-    app.register_blueprint(product_bp, url_prefix='/fruteria/v1')
     return app
