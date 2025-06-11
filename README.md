@@ -1,3 +1,4 @@
+=======
 Fruteria API - Proyecto de Aprendizaje
 
 Un proyecto educativo que demuestra el desarrollo de una API REST desde cero usando Python y Flask.

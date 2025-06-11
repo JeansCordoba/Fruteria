@@ -5,13 +5,11 @@ class Supplier(db.Model):
     
     supplier_id = db.Column(db.Integer, primary_key=True, autoincrement=True)
     name = db.Column(db.String(50), nullable=False)
-    contact_name = db.Column(db.String(50))
     phone = db.Column(db.String(20))
     email = db.Column(db.String(50))
     address = db.Column(db.String(200))
     nit = db.Column(db.String(20))
     
-    # Relación con productos
     products = db.relationship('Product', backref='supplier', lazy=True)
     
     def __repr__(self):
@@ -21,8 +19,6 @@ class Supplier(db.Model):
         return {
             'id': self.supplier_id,
             'name': self.name,
-            'contact_name': self.contact_name,
-            'phone': self.phone,
             'email': self.email,
             'address': self.address,
             'nit': self.nit
